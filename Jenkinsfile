@@ -4,11 +4,14 @@ pipeline {
             label 'maven'
         }
     }
-
+    //Since maven is added to bash_profile we need to update env var PATH everytime we run pipeline
+    environment {
+        PATH = "/opt/apache-maven-3.9.6/bin:$PATH"
+    }
     stages {
-        stage('Clone code') {
+        stage('Build') {
             steps {
-                git branch: 'main', url: 'https://github.com/ravdy/tweet-trend.git'
+                sh 'mvn clean deploy'
             }
         }
     }
